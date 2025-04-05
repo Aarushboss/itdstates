@@ -9,7 +9,6 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import com.qualcomm.robotcore.hardware.DcMotorControllerEx;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import intothedeep.Arm.*;
@@ -521,6 +520,10 @@ public class newteleop extends LinearOpMode {
                 pivotposition(1, 0.8);
             }
 
+            if (gamepad1.dpad_down) {
+                leftslides.setTarget(1635);
+                pivotposition(1, 0.8);
+            }
 
 
             //ASCENT
