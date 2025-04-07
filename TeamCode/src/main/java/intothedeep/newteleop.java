@@ -651,9 +651,9 @@ public class newteleop extends LinearOpMode {
             FR.setPower(frontRightPower);
             BR.setPower(backRightPower);
 
-            if (bumperstage == 1 || bumperstage == 2 || bumperstage == 3 || bumperstage == 4 || bumperstage == 5 || bumperstage == 6 || bumperstage == 7 || bumperstage == 9 || bumperstage == 11 || ascentstage == 2 || ascentstage == 3 || ascentstage == 4 || ascentstage == 5 || ascentstage == 6 || ascentstage == 7) {
-                leftslides.armTask();
-            }
+//            if (bumperstage == 1 || bumperstage == 2 || bumperstage == 3 || bumperstage == 4 || bumperstage == 5 || bumperstage == 6 || bumperstage == 7 || bumperstage == 9 || bumperstage == 11 || ascentstage == 2 || ascentstage == 3 || ascentstage == 4 || ascentstage == 5 || ascentstage == 6 || ascentstage == 7) {
+//                leftslides.armTask();
+//            }
 
         }
     }
