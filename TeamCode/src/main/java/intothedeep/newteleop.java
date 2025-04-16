@@ -58,6 +58,17 @@ public class newteleop extends LinearOpMode {
         rightslide.setTargetPosition(slidesposition);
         leftslide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         rightslide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        leftslide.setPower(1);
+        rightslide.setPower(1);
+    }
+
+    public void slidespositio(int slidespos) {
+        leftslide.setTargetPosition(slidespos);
+        rightslide.setTargetPosition(slidespos);
+        leftslide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rightslide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        leftslide.setPower(1);
+        rightslide.setPower(1);
     }
 
     public void largeclawrotate(double rotate) {
@@ -129,8 +140,6 @@ public class newteleop extends LinearOpMode {
         rightpivot = hardwareMap.get(DcMotorEx.class, "rightpivot");
         leftpivot.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE); //maybe change later for specimen
         rightpivot.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        leftpivot.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        rightpivot.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         leftpivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightpivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftpivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -173,13 +182,14 @@ public class newteleop extends LinearOpMode {
         waitForStart();
         double prevArmPower = 0.0;
 
-        setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(p, i, d, f));
 
         if (isStopRequested()) return;
 
         boolean clawtoggle = true;
 
         while (opModeIsActive()) {
+
+            setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(p, i, d, f));
 
 
 //            double armPower = -gamepad1.right_stick_y;
@@ -256,9 +266,9 @@ public class newteleop extends LinearOpMode {
             //RIGHT BUMPER SAMPLE PICKUP AND SCORE
             if (gamepad1.right_bumper && !rightbumperpressed) {
                 rightbumperpressed = true;
-                if (bumperstage > 4.9 && bumperstage < 7.9) {
+                if (bumperstage > 3.9 && bumperstage < 6.9) {
 //                    rightbumperpressed  = true; //or false?
-                    bumperstage = 8;
+                    bumperstage = 7;
                 } else if (bumperstage > 11.9) {
 //                    rightbumperpressed = true; //or true?
                     bumperstage = 1;
@@ -272,7 +282,7 @@ public class newteleop extends LinearOpMode {
             //RIGHT TRIGGER SPECIMEN PICKUP AND DROPOFF INTO OBSERVAITON ZONE
             if (gamepad1.right_trigger > 0.5 && !righttriggerpressed) {
                 righttriggerpressed = true;
-                if (bumperstage > 6.1) {
+                if (bumperstage > 5.1) {
 //                    rightbumperpressed = false; //or true?
                     bumperstage = 1;
                 } else {
@@ -284,7 +294,7 @@ public class newteleop extends LinearOpMode {
 
             if (gamepad1.b && !buttonBpressed) {
                 buttonBpressed = true;
-                if (slideslengthstage > 3.9) {
+                if (slideslengthstage > 2.9) {
                     slideslengthstage = 1;
                 } else {
                     slideslengthstage++;
@@ -310,42 +320,44 @@ public class newteleop extends LinearOpMode {
                     //   leftslides.setTarget(1480);
                     submersibleinandout();
                     pivotposition(5, 0.35);
-                    slides(caseonepos);
-//                    leftslides.setTarget(caseonepos);
+//                    slides(caseonepos);
+                    leftslides.setTarget(caseonepos);
+//                    slidespositio(caseonepos);
                     break;
 
                 case 2: //slides and servos position once in observation zone
                     //once sample is located and have top of claw go down enough to touch sample and close claw becomes part of stage
                     samplepickuppos();
                     claw.setPosition(0.15);
-                    slides(caseonepos);
-//                    leftslides.setTarget(caseonepos);
+                    leftslides.setTarget(caseonepos);
                     break;
 
                 case 3: //close claw, reset claw mech position, retract slides (not fully). (claw will be closed seperately to make sure that sample is picked up)
                     clawtoggle = false;
-                    slides(caseonepos);
-//                    leftslides.setTarget(caseonepos);
+                    leftslides.setTarget(caseonepos);
                     break;
 
                 case 4:
                     clawtoggle = false; //close
                     clawswivel.setPosition(0.18);
                     resetpos();
-                    slides(50);
-//                    leftslides.setTarget(50);
+//                    slides(50);
+                    leftslides.setTarget(40);
+//                    slidespositio(50);
                     break;
 
                 case 5: //extend slides fully to drop sample into observation zone
-                    slides(1490);
-//                    leftslides.setTarget(1490);
+//                    slides(1490);
+                    leftslides.setTarget(1490);
+//                    slidespositio(1490);
                     pivotposition(5, 0.35);
                     break;
 
                 case 6: //open claw and retract slides to position ~500
                     clawtoggle = true; //open
-                    slides(700);
-//                    leftslides.setTarget(700);
+//                    slides(700);
+                    leftslides.setTarget(700);
+//                    slidespositio(700);
                     pivotposition(5, 0.35);
                     break;
 
@@ -357,8 +369,9 @@ public class newteleop extends LinearOpMode {
                 case 8: //automatically happens
                     samplebasketrelease();
                     clawswivel.setPosition(0.51);
-                    slides(2374);
-//                    leftslides.setTarget(2374); //increase to 2390 if new belt is attached
+//                    slides(2374);
+                    leftslides.setTarget(2374); //increase to 2390 if new belt is attached
+//                    slidespositio(2374);
                     pivotposition(268, 1);
                     leftpivot.setPower(0.5);
                     rightpivot.setPower(0.5);
@@ -372,15 +385,16 @@ public class newteleop extends LinearOpMode {
                     break;
 
                 case 10:
-                    slides(20);
-//                    leftslides.setTarget(20);
+//                    slides(20);
+                    leftslides.setTarget(20);
+//                    slidespositio(20);
                     clawswivel.setPosition(0.181);
-                    caseonepos = 425;
+                    caseonepos = 150;
                     break;
 
                 case 11: //automatically happens
                     pivotposition(10, 1);
-                    caseonepos = 425;
+                    caseonepos = 150;
                     break;
             }
             telemetry.addData("Sample Stage", bumperstage);
@@ -459,8 +473,8 @@ public class newteleop extends LinearOpMode {
              * **/
             switch (lefttriggerstage) {
                 case 1:
-                    slides(5);
-//                    leftslides.setTarget(5);
+//                    slides(5);
+                    leftslides.setTarget(5);
                     pivotposition(5, 1);
                     largeclawrotate(0.12);
                     singleclawrotate.setPosition(0.48);
@@ -483,8 +497,8 @@ public class newteleop extends LinearOpMode {
                     break;
 
                 case 5:
-                    slides(1635);
-//                    leftslides.setTarget(1635);
+//                    slides(1635);
+                    leftslides.setTarget(1635);
                     break;
 
                 case 6:
@@ -492,8 +506,8 @@ public class newteleop extends LinearOpMode {
 
                     break;
                 case 7:
-                    slides(5);
-//                    leftslides.setTarget(5);
+//                    slides(5);
+                    leftslides.setTarget(5);
                     break;
 
             }
@@ -541,8 +555,8 @@ public class newteleop extends LinearOpMode {
                     pivotposition(270, 1);
                     break;
                 case 2: //move pivot to position ~70. then retract slides to position ~250 and move ascent servos to position. sequential action? or make servos seperate stage
-//                    leftslides.setTarget(1500);
-                    slides(1500);
+                    leftslides.setTarget(1500);
+//                    slides(1500);
                     pivotposition(268, 1);
                     break;
                 case 3: //extend slides fully and *then* move pivot to be able to get onto high bar
@@ -551,8 +565,8 @@ public class newteleop extends LinearOpMode {
                 case 4: //retract slides so robot can hang off high bar then release ascent servos from low bar and retract slides rest of the way. then put ascent servos back and release slides
                     leftpivot.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
                     rightpivot.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
-//                    leftslides.setTarget(100);
-                    slides(100);
+                    leftslides.setTarget(100);
+//                    slides(100);
                     break;
                 case 5:
                     leftpivot.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
@@ -567,15 +581,15 @@ public class newteleop extends LinearOpMode {
                     break;
                 case 7:
                     pivotposition(270, 0.75);
-//                    leftslides.setTarget(1500);
-                    slides(1500);
+                    leftslides.setTarget(1500);
+//                    slides(1500);
                     break;
                 case 8:
                     pivotposition(220, 1);
                     break;
                 case 9:
-//                    leftslides.setTarget(100);
-                    slides(100);
+                    leftslides.setTarget(100);
+//                    slides(100);
                     break;
                 case 10:
                     //move ascent servos to position
@@ -650,10 +664,10 @@ public class newteleop extends LinearOpMode {
             BL.setPower(backLeftPower);
             FR.setPower(frontRightPower);
             BR.setPower(backRightPower);
-
-//            if (bumperstage == 1 || bumperstage == 2 || bumperstage == 3 || bumperstage == 4 || bumperstage == 5 || bumperstage == 6 || bumperstage == 7 || bumperstage == 9 || bumperstage == 11 || ascentstage == 2 || ascentstage == 3 || ascentstage == 4 || ascentstage == 5 || ascentstage == 6 || ascentstage == 7) {
-//                leftslides.armTask();
-//            }
+//bumperstage == 1 || bumperstage == 2 || bumperstage == 3 || bumperstage == 4 || bumperstage == 5 ||
+            if (bumperstage == 1 || bumperstage == 2 || bumperstage == 3 || bumperstage == 4 || bumperstage == 5 || bumperstage == 6 || bumperstage == 7 || bumperstage == 8 || bumperstage == 9 || bumperstage == 11 || ascentstage == 2 || ascentstage == 3 || ascentstage == 4 || ascentstage == 5 || ascentstage == 6 || ascentstage == 7) {
+                leftslides.armTask();
+            }
 
         }
     }
