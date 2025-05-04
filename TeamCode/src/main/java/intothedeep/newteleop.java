@@ -30,6 +30,9 @@ public class newteleop extends LinearOpMode {
     DcMotorEx leftpivot, rightpivot;
     DcMotorEx FL, FR, BL, BR;
     Servo claw, clawswivel, singleclawrotate, leftclawrotate, rightclawrotate;
+
+    public static double clawswivelcenter = 0.181, clawswivelleft = 0.6, clawswivelright = 0;
+
     final static double p = 0.0055, i = 0, d = 0.0001;
     final static double f = 0.1;
     int target = 0;
@@ -76,20 +79,20 @@ public class newteleop extends LinearOpMode {
         rightclawrotate.setPosition(rotate);
     }
     public void samplebasketrelease() {
-        largeclawrotate(0.022);
+        largeclawrotate(0.25);
         clawswivel.setPosition(0.22); //maker sure center
-        singleclawrotate.setPosition(0.49); //figure out what to set this
+        singleclawrotate.setPosition(0.24); //figure out what to set this
     }
     public void submersibleinandout() {
-        largeclawrotate(0.095);
+        largeclawrotate(0.28);
         singleclawrotate.setPosition(0); //figure out what to set this
     }
     public void samplepickuppos() {
-        largeclawrotate(0);
-        singleclawrotate.setPosition(0.23); //figure out what to set this
+        largeclawrotate(0.11);
+        singleclawrotate.setPosition(0.05); //figure out what to set this
     }
     public void resetpos() {
-        largeclawrotate(0.12);
+        largeclawrotate(0.2);
     }
     boolean clawpressed = false;
     public void pivotposition(int pivottarget, double pivotspeed) {
@@ -174,7 +177,7 @@ public class newteleop extends LinearOpMode {
         leftclawrotate = hardwareMap.get(Servo.class, "leftend");
         rightclawrotate = hardwareMap.get(Servo.class, "rightend");
         //range  for big rotate is 0.01 - 0.33. 0.01 is towards front
-        rightclawrotate.setDirection(Servo.Direction.REVERSE);
+        leftclawrotate.setDirection(Servo.Direction.REVERSE);
         claw = hardwareMap.get(Servo.class, "claw"); //0.2 = open. 0.46 = close.
         clawswivel = hardwareMap.get(Servo.class, "wristXTilt"); //0 = left. 0.19 = center. 0.39 = right.
         singleclawrotate = hardwareMap.get(Servo.class, "wristSwerve"); //0 = towards front. 0.7 = towards back.
@@ -222,9 +225,9 @@ public class newteleop extends LinearOpMode {
                 clawpressed = false;
             }
             if (clawtoggle) {
-                claw.setPosition(0.16); //open
+                claw.setPosition(0.46); //open
             } else if (!clawtoggle) {
-                claw.setPosition(0.46); //close
+                claw.setPosition(0.1615); //close
             }
             //fully extending and retracting slides horizontally for sample release into observation zone for specimen cycles. and extending and retracting slides for submersible
             if (gamepad1.left_stick_y > 0.5) {
@@ -247,14 +250,14 @@ public class newteleop extends LinearOpMode {
 //                clawswivel.setPosition(0.19); //resets to 0 degree angle
 //            }
             //FIGURE OUT NEW VALUES
-            if ((gamepad1.left_stick_x < -0.5) && (clawswivel.getPosition() < 0.6)) {
-                clawswivel.setPosition(clawswivel.getPosition() + 0.006); //turns claw to the right
+            if ((gamepad1.left_stick_x < -0.5) && (clawswivel.getPosition() < 0.7)) {
+                clawswivel.setPosition(clawswivel.getPosition() + 0.013); //turns claw to the right
             }
             if ((gamepad1.left_stick_x > 0.5) && clawswivel.getPosition() > 0) {
-                clawswivel.setPosition(clawswivel.getPosition() - 0.006); //turns claw to the left
+                clawswivel.setPosition(clawswivel.getPosition() - 0.013); //turns claw to the left
             }
             if (gamepad1.left_stick_y > 0.3 || gamepad1.left_stick_y < -0.3 || gamepad1.left_stick_button) {
-                clawswivel.setPosition(0.181); //resets to 0 degree angle
+                clawswivel.setPosition(0.22); //resets to 0 degree angle
             }
 //            } if (gamepad1.left_stick_x > 0.3) {
 //                clawswivel.setPosition(0);
@@ -269,7 +272,7 @@ public class newteleop extends LinearOpMode {
                 if (bumperstage > 3.9 && bumperstage < 6.9) {
 //                    rightbumperpressed  = true; //or false?
                     bumperstage = 7;
-                } else if (bumperstage > 11.9) {
+                } else if (bumperstage > 12.9) {
 //                    rightbumperpressed = true; //or true?
                     bumperstage = 1;
                 } else {
@@ -328,7 +331,7 @@ public class newteleop extends LinearOpMode {
                 case 2: //slides and servos position once in observation zone
                     //once sample is located and have top of claw go down enough to touch sample and close claw becomes part of stage
                     samplepickuppos();
-                    claw.setPosition(0.15);
+                    claw.setPosition(0.461);
                     leftslides.setTarget(caseonepos);
                     break;
 
@@ -339,7 +342,7 @@ public class newteleop extends LinearOpMode {
 
                 case 4:
                     clawtoggle = false; //close
-                    clawswivel.setPosition(0.18);
+                    clawswivel.setPosition(0.22);
                     resetpos();
 //                    slides(50);
                     leftslides.setTarget(40);
@@ -368,7 +371,7 @@ public class newteleop extends LinearOpMode {
 
                 case 8: //automatically happens
                     samplebasketrelease();
-                    clawswivel.setPosition(0.51);
+                    clawswivel.setPosition(0.22);
 //                    slides(2374);
                     leftslides.setTarget(2374); //increase to 2390 if new belt is attached
 //                    slidespositio(2374);
@@ -386,15 +389,16 @@ public class newteleop extends LinearOpMode {
 
                 case 10:
 //                    slides(20);
-                    leftslides.setTarget(20);
+                    leftslides.setTarget(40);
+                    pivotposition(268, 1);
 //                    slidespositio(20);
-                    clawswivel.setPosition(0.181);
-                    caseonepos = 150;
+                    clawswivel.setPosition(0.22);
+                    caseonepos = 200;
                     break;
 
                 case 11: //automatically happens
                     pivotposition(10, 1);
-                    caseonepos = 150;
+                    caseonepos = 210;
                     break;
             }
             telemetry.addData("Sample Stage", bumperstage);
@@ -406,9 +410,6 @@ public class newteleop extends LinearOpMode {
 //            if (bumperstage == 7 && (leftpivot.getCurrentPosition() > 134)) {
 //                bumperstage = 8;
 //            }
-            if (bumperstage == 10 && (leftslide.getCurrentPosition() < 125)) {
-                bumperstage = 11;
-            }
             if (bumperstage == 11 && (leftpivot.getCurrentPosition() < 20)) {
                 bumperstage = 1;
             }
@@ -608,20 +609,20 @@ public class newteleop extends LinearOpMode {
 
 
 
-//                if (gamepad2.dpad_down) {
-//                    leftclawrotate.setPosition(0);
-//                    rightclawrotate.setPosition(0);
-//                    singleclawrotate.setPosition(0);
-//                }
-//                if (gamepad2.y) {
-//                    claw.setPosition(0.5);
-//                }
-//                if (gamepad2.x) {
-//                    claw.setPosition(0);
-//                }
-//                if (gamepad2.b) {
-//                    claw.setPosition(1);
-//                }
+                if (gamepad2.dpad_down) {
+                    leftclawrotate.setPosition(0);
+                    rightclawrotate.setPosition(0);
+                }
+                if (gamepad2.y) {
+                    leftclawrotate.setPosition(1);
+                    rightclawrotate.setPosition(1);
+                }
+                if (gamepad2.x) {
+                    singleclawrotate.setPosition(0.5);
+                }
+                if (gamepad2.b) {
+                    claw.setPosition(1);
+                }
             if (gamepad2.dpad_up) {
                 singleclawrotate.setPosition(0);
             }
