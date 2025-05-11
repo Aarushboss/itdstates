@@ -9,7 +9,7 @@ class Arm {
      private final double ticks_in_degree = 1425.1/360;
      private int target = 0;
 
-    double p = 0.0055, i = 0, d = 0.001, f = 0.1;
+    double p = 0.0055, i = 0, d = 0.001, f = 0.04;
     double pivotf = 0.2;
 
     private DcMotorEx leftslide; //these are private so we need to redeclare them in the teleop
@@ -80,21 +80,6 @@ class Arm {
             setTarget(leftslide.getCurrentPosition());
         }
     }
-
-//    public void joystickarmtask() {
-//
-//        controller.setPID(p, i, d);
-//        int slidepos = (leftslide.getCurrentPosition() + rightslide.getCurrentPosition())/ 2;
-//        int pos = arm_motor.getCurrentPosition();
-//        double pid = controller.calculate(pos, targetangle);
-//
-//        power = pid;
-//
-//        leftslide.setPower(power);
-//        rightslide.setPower(power);
-//
-//    }
-
     public void armTask() {
 
         controller.setPID(p, i, d);
