@@ -205,67 +205,203 @@ public class onesampleauto extends LinearOpMode {
         if (opModeIsActive()) {
 
 
-
             claw.setPosition(0.1615); //close
-            pivotposition(270,0.9);
-//            drive(-1);
+            pivotposition(270, 0.9);
+
+// Drive to scoring position
             FL.setPower(-1);
             BL.setPower(-1);
             FR.setPower(-1);
             BR.setPower(-1);
             sleep(300);
-//            drive(0);
             FL.setPower(0);
             BL.setPower(0);
             FR.setPower(0);
             BR.setPower(0);
+
             leftslides.armTask();
             samplebasketrelease();
-            leftslides.setTarget(2381);
-            sleep(1000);
+            leftslides.setTarget(2383);
             leftslides.armTask();
-//            drive(-1);
+            sleep(3000);
+
+// Nudge backward to release sample
             FL.setPower(-1);
             BL.setPower(-1);
             FR.setPower(-1);
             BR.setPower(-1);
-            sleep(40);
-//            drive(0);
+            sleep(50);
             FL.setPower(0);
             BL.setPower(0);
             FR.setPower(0);
             BR.setPower(0);
+
             samplebasketrelease();
-            claw.setPosition(0.5); //open
-//            drive(1);
+            claw.setPosition(0.52); //open
+
+// Drive away from scoring area and prepare for next cycle
             FL.setPower(1);
             BL.setPower(1);
             FR.setPower(1);
             BR.setPower(1);
-            sleep(500);
-//            drive(0);
+            sleep(200); //robot should be aliged with a sample on the mark when turned left 90 degrees
             FL.setPower(0);
             BL.setPower(0);
             FR.setPower(0);
             BR.setPower(0);
+
+            leftslides.armTask();
+            leftslides.setTarget(200);
+            leftslides.armTask();
+            sleep(1000);
+
+// --- Autonomous Sequence: Intake Second Sample ---
+
+// Turn towards the second sample
+            FL.setPower(-1);
+            BL.setPower(-1);
+            FR.setPower(1);
+            BR.setPower(1);
+            sleep(100); //SHOULD BE 90 DEGREE TURN
+            FL.setPower(0);
+            BL.setPower(0);
+            FR.setPower(0);
+            BR.setPower(0);
+
+// Prepare mechanisms for intake
+            submersibleinandout();
+            pivotposition(20, 0.8);
+            sleep(250);
+            claw.setPosition(0.61); // open claw
+
+// Extend slides and grab sample
+            leftslides.armTask();
+            leftslides.setTarget(600);
+            leftslides.armTask();
+            sleep(600);
+            samplepickuppos();
+            claw.setPosition(0.1615);
+
+// Retract slides with sample
+            resetpos();
             leftslides.armTask();
             leftslides.setTarget(10);
             leftslides.armTask();
+            sleep(1200);
+
+// --- Autonomous Sequence: Score Second Sample ---
+
+// Prepare mechanisms for scoring
+            pivotposition(270,0.88);
+            samplebasketrelease();
+
+// Turn towards scoring area
+            FL.setPower(1);
+            BL.setPower(1);
+            FR.setPower(-1);
+            BR.setPower(-1);
+            sleep(150); //SHOULD BE 90 DEGREE TURN
+            FL.setPower(0);
+            BL.setPower(0);
+            FR.setPower(0);
+            BR.setPower(0);
+
+//STRAFE TO ALIGN WITH WALL
+            FL.setPower(1);
+            BL.setPower(-1);
+            FR.setPower(1);
+            BR.setPower(-1);
+            sleep(30);
+            FL.setPower(0);
+            BL.setPower(0);
+            FR.setPower(0);
+            BR.setPower(0);
+
+// Extend slides to score
+            leftslides.armTask();
+            leftslides.setTarget(2383);
+            leftslides.armTask();
+            sleep(3000);
+
+// Nudge backward to release sample
+            FL.setPower(-1);
+            BL.setPower(-1);
+            FR.setPower(-1);
+            BR.setPower(-1);
+            sleep(100);
+            FL.setPower(0);
+            BL.setPower(0);
+            FR.setPower(0);
+            BR.setPower(0);
+
+            samplebasketrelease();
+            claw.setPosition(0.50);
+
+// Drive away from scoring area
+            FL.setPower(1);
+            BL.setPower(1);
+            FR.setPower(1);
+            BR.setPower(1);
+            sleep(200);
+            FL.setPower(0);
+            BL.setPower(0);
+            FR.setPower(0);
+            BR.setPower(0);
+
+// --- Autonomous Sequence: End Routine ---
+
+// Retract slides and reset mechanisms
+            leftslides.armTask();
+            leftslides.setTarget(20);
+            leftslides.armTask();
+            sleep(1500);
+            resetpos();
             pivotposition(20, 0.8);
 
 
 
 
-
-
-
-
-            telemetry.update();
-
-            if (bumperstage == 1 || bumperstage == 2 || bumperstage == 3 || bumperstage == 4 || bumperstage == 8 || bumperstage == 9 || bumperstage == 10 || ascentstage == 2 || ascentstage == 3 || ascentstage == 4 || ascentstage == 5 || ascentstage == 6 || ascentstage == 7) {
-                leftslides.armTask();
-            }
-
+//for only one sample edit the following code as needed:
+//            claw.setPosition(0.1615); //close
+//            pivotposition(270,0.9);
+//            FL.setPower(-1);
+//            BL.setPower(-1);
+//            FR.setPower(-1);
+//            BR.setPower(-1);
+//            sleep(300);
+//            FL.setPower(0);
+//            BL.setPower(0);
+//            FR.setPower(0);
+//            BR.setPower(0);
+//            leftslides.armTask();
+//            samplebasketrelease();
+//            leftslides.setTarget(2381);
+//            sleep(1000);
+//            leftslides.armTask();
+//            FL.setPower(-1);
+//            BL.setPower(-1);
+//            FR.setPower(-1);
+//            BR.setPower(-1);
+//            sleep(40);
+//            FL.setPower(0);
+//            BL.setPower(0);
+//            FR.setPower(0);
+//            BR.setPower(0);
+//            samplebasketrelease();
+//            claw.setPosition(0.5); //open
+//            FL.setPower(1);
+//            BL.setPower(1);
+//            FR.setPower(1);
+//            BR.setPower(1);
+//            sleep(500);
+//            FL.setPower(0);
+//            BL.setPower(0);
+//            FR.setPower(0);
+//            BR.setPower(0);
+//            leftslides.armTask();
+//            leftslides.setTarget(10);
+//            leftslides.armTask();
+//            pivotposition(20, 0.8);
         }
     }
 }

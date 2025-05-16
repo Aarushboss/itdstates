@@ -296,7 +296,7 @@ public class newteleop extends LinearOpMode {
                 case 2: //slides and servos position once in observation zone
                     //once sample is located and have top of claw go down enough to touch sample and close claw becomes part of stage
                     samplepickuppos();
-                    claw.setPosition(0.5);
+                    claw.setPosition(0.52);
                     leftslides.setTarget(caseonepos);
                     break;
 
@@ -434,9 +434,18 @@ public class newteleop extends LinearOpMode {
                 inandout = inandout - 0.003;
             }
 
+            //driver can hold left or right bumper to decrease max speed and scale that onto the controller
+            if (gamepad2.left_bumper) {
+                speedx = 0;
+            } else if (gamepad2.right_bumper) {
+                speedx = 1;
+            } else {
+                speedx = 2;
+            }
+
             rx = gamepad2.left_stick_y; // Remember, Y stick value is reversed
             x = -gamepad2.left_stick_x * 1.1; // Counteract imperfect strafing
-            y = gamepad2.right_stick_x;
+            y = gamepad2.right_stick_x * 0.85;
             denominator = Math.max(abs(y) + abs(x) + abs(rx), 1);
 
             frontLeftPower = speed[speedx] * ((y + x + rx) / denominator);
