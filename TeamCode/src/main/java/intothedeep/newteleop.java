@@ -29,6 +29,9 @@ import java.util.Timer;
 public class newteleop extends LinearOpMode {
     public static final double[] speed = {0.25, 0.65, 1};
 
+    double subinout = 0.41;
+    double inandout = 0.20;
+
     private Timer ascenttimer;
     DcMotorEx leftslide, rightslide;
     DcMotorEx leftpivot, rightpivot;
@@ -38,7 +41,7 @@ public class newteleop extends LinearOpMode {
     public static double clawswivelcenter = 0.181, clawswivelleft = 0.6, clawswivelright = 0;
 
     final static double p = 0.0055, i = 0, d = 0.0001;
-    double f = 0.04;
+    double f = 0.1;
     int target = 0;
     private int bumperstage = 0;
     private int lefttriggerstage = 0;
@@ -88,15 +91,15 @@ public class newteleop extends LinearOpMode {
         singleclawrotate.setPosition(0.7); //figure out what to set this
     }
     public void submersibleinandout() {
-        largeclawrotate(0.41);
+        largeclawrotate(inandout);
         singleclawrotate.setPosition(0.15); //figure out what to set this
     }
     public void samplepickuppos() {
-        largeclawrotate(0.20);
+        largeclawrotate(0.07);
         singleclawrotate.setPosition(0.17); //figure out what to set this
     }
     public void resetpos() {
-        largeclawrotate(0.6);
+        largeclawrotate(0.5);
     }
     boolean clawpressed = false;
     public void pivotposition(int pivottarget, double pivotspeed) {
@@ -413,28 +416,22 @@ public class newteleop extends LinearOpMode {
 
                 if (gamepad2.dpad_down) {
                     leftclawrotate.setPosition(0);
-                    rightclawrotate.setPosition(0);
                 }
                 if (gamepad2.y) {
-                    leftclawrotate.setPosition(1);
-                    rightclawrotate.setPosition(1);
+                    rightclawrotate.setPosition(0);
                 }
                 if (gamepad2.x) {
                     singleclawrotate.setPosition(0.5);
                 }
-                if (gamepad2.b) {
-
-                }
             if (gamepad2.dpad_up) {
                 singleclawrotate.setPosition(0);
             }
-            if (gamepad2.dpad_down) {
-                leftclawrotate.setPosition(leftclawrotate.getPosition() - 0.015);
-                rightclawrotate.setPosition(rightclawrotate.getPosition() - 0.015);
+
+            if (gamepad1.dpad_up) {
+                inandout = inandout + 0.003;
             }
-            if (gamepad2.dpad_up) {
-                leftclawrotate.setPosition(leftclawrotate.getPosition() + 0.015);
-                rightclawrotate.setPosition(rightclawrotate.getPosition() + 0.015);
+            if (gamepad1.dpad_down) {
+                inandout = inandout - 0.003;
             }
 
             rx = gamepad2.left_stick_y; // Remember, Y stick value is reversed
