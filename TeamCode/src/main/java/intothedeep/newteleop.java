@@ -88,7 +88,7 @@ public class newteleop extends LinearOpMode {
     public void samplebasketrelease() {
         largeclawrotate(0);
         clawswivel.setPosition(0.22); //maker sure center
-        singleclawrotate.setPosition(0.7); //figure out what to set this
+        singleclawrotate.setPosition(0.6); //figure out what to set this
     }
     public void submersibleinandout() {
         largeclawrotate(inandout);
@@ -99,7 +99,7 @@ public class newteleop extends LinearOpMode {
         singleclawrotate.setPosition(0.17); //figure out what to set this
     }
     public void resetpos() {
-        largeclawrotate(0.5);
+        largeclawrotate(0.65);
     }
     boolean clawpressed = false;
     public void pivotposition(int pivottarget, double pivotspeed) {
@@ -247,18 +247,17 @@ public class newteleop extends LinearOpMode {
                 rightbumperpressed = false;
             }
 
-            //RIGHT TRIGGER SPECIMEN PICKUP AND DROPOFF INTO OBSERVAITON ZONE
-            if (gamepad1.right_trigger > 0.5 && !righttriggerpressed) {
-                righttriggerpressed = true;
-                if (bumperstage > 5.1) {
-//                    rightbumperpressed = false; //or true?
-                    bumperstage = 1;
-                } else {
-                    bumperstage++;
-                }
-            } else if (gamepad1.right_trigger < 0.5) {
-                righttriggerpressed = false;
+            //available buttons - y, dpad_right, left_trigger, right_trigger, right_stick
+            //to collect pixel leaning on wall and cone on its side
+            if (gamepad1.y) {
+                bumperstage = 20; //ends bumperstage loop. next time right bumper is pressed, bumper stage loop will resume at case 1
+                caseonepos = 20;
+                pivotposition(20,0.5);
+                clawswivel.setPosition(0.22); //change?
+                largeclawrotate(0.01);
+                singleclawrotate.setPosition(0.1);
             }
+
 
             if (gamepad1.b && !buttonBpressed) {
                 buttonBpressed = true;
@@ -278,7 +277,7 @@ public class newteleop extends LinearOpMode {
                     caseonepos = 900;
                     break;
                 case 3:
-                    caseonepos = 1505; //if robot is out of size decrease this
+                    caseonepos = 1500; //if robot is out of size decrease this
                     break;
             }
 
@@ -286,6 +285,9 @@ public class newteleop extends LinearOpMode {
                 case 1: //slides and servos position for observation zone entry
                     //set claw mech positions in order to be able to move in and out of sub but as low as possible
                     //   leftslides.setTarget(1480);
+                    if (caseonepos == 20) {
+                        caseonepos = 400;
+                    }
                     submersibleinandout();
                     pivotposition(5, 0.35);
 //                    slides(caseonepos);
