@@ -30,7 +30,7 @@ public class newteleop extends LinearOpMode {
     public static final double[] speed = {0.25, 0.65, 1};
 
     double subinout = 0.41;
-    double inandout = 0.28; //0.2
+    double inandout = 0.20;
 
     private Timer ascenttimer;
     DcMotorEx leftslide, rightslide;
@@ -41,7 +41,7 @@ public class newteleop extends LinearOpMode {
     public static double clawswivelcenter = 0.181, clawswivelleft = 0.6, clawswivelright = 0;
 
     final static double p = 0.0055, i = 0, d = 0.0001;
-    double f = 0.05;
+    double f = 0.1;
     int target = 0;
     private int bumperstage = 0;
     private int lefttriggerstage = 0;
@@ -88,18 +88,18 @@ public class newteleop extends LinearOpMode {
     public void samplebasketrelease() {
         largeclawrotate(0);
         clawswivel.setPosition(0.22); //maker sure center
-//        singleclawrotate.setPosition(0.6); //figure out what to set this
+        singleclawrotate.setPosition(0.7); //figure out what to set this
     }
     public void submersibleinandout() {
         largeclawrotate(inandout);
-//        singleclawrotate.setPosition(0.15); //figure out what to set this
+        singleclawrotate.setPosition(0.15); //figure out what to set this
     }
     public void samplepickuppos() {
-        largeclawrotate(0.01);
-//        singleclawrotate.setPosition(0.17); //figure out what to set this
+        largeclawrotate(0.07);
+        singleclawrotate.setPosition(0.17); //figure out what to set this
     }
     public void resetpos() {
-        largeclawrotate(0.65);
+        largeclawrotate(0.5);
     }
     boolean clawpressed = false;
     public void pivotposition(int pivottarget, double pivotspeed) {
@@ -130,8 +130,9 @@ public class newteleop extends LinearOpMode {
         leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightslide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightslide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightslide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightslide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftslide.setDirection(DcMotorEx.Direction.REVERSE);
         rightslide.setDirection(DcMotorEx.Direction.REVERSE);
 //        Arm leftslide = new Arm( "leftslide", p, i, d, f);
@@ -148,8 +149,8 @@ public class newteleop extends LinearOpMode {
         //PIVOT
         leftpivot = hardwareMap.get(DcMotorEx.class, "leftpivot");
         rightpivot = hardwareMap.get(DcMotorEx.class, "rightpivot");
-        leftpivot.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE); //maybe change later for specimen
-        rightpivot.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+//        leftpivot.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE); //maybe change later for specimen
+//        rightpivot.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         leftpivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightpivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftpivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -214,9 +215,9 @@ public class newteleop extends LinearOpMode {
                 clawpressed = false;
             }
             if (clawtoggle) {
-                claw.setPosition(0.52); //open
+                claw.setPosition(0.5); //open
             } else if (!clawtoggle) {
-                claw.setPosition(0.18); //close
+                claw.setPosition(0.1615); //close
             }
 
             //FIGURE OUT NEW VALUES
@@ -237,7 +238,7 @@ public class newteleop extends LinearOpMode {
                 if (bumperstage > 3.9 && bumperstage < 6.9) {
 //                    rightbumperpressed  = true; //or false?
                     bumperstage = 7;
-                } else if (bumperstage > 6.9) {
+                } else if (bumperstage > 12.9) {
 //                    rightbumperpressed = true; //or true?
                     bumperstage = 1;
                 } else {
@@ -247,15 +248,18 @@ public class newteleop extends LinearOpMode {
                 rightbumperpressed = false;
             }
 
-            //available buttons - y, dpad_right, left_trigger, right_trigger, right_stick
-            //to collect pixel leaning on wall and cone on its side
-            if (gamepad1.y) {
-                caseonepos = 350;
-                bumperstage = 20; //ends bumperstage loop. next time right bumper is pressed, bumper stage loop will resume at case 1
-                largeclawrotate(0.8);
-//                singleclawrotate.setPosition(0.45);
+            //RIGHT TRIGGER SPECIMEN PICKUP AND DROPOFF INTO OBSERVAITON ZONE
+            if (gamepad1.right_trigger > 0.5 && !righttriggerpressed) {
+                righttriggerpressed = true;
+                if (bumperstage > 5.1) {
+//                    rightbumperpressed = false; //or true?
+                    bumperstage = 1;
+                } else {
+                    bumperstage++;
+                }
+            } else if (gamepad1.right_trigger < 0.5) {
+                righttriggerpressed = false;
             }
-
 
             if (gamepad1.b && !buttonBpressed) {
                 buttonBpressed = true;
@@ -275,7 +279,7 @@ public class newteleop extends LinearOpMode {
                     caseonepos = 900;
                     break;
                 case 3:
-                    caseonepos = 1450; //if robot is out of size decrease this
+                    caseonepos = 1505; //if robot is out of size decrease this
                     break;
             }
 
@@ -284,7 +288,7 @@ public class newteleop extends LinearOpMode {
                     //set claw mech positions in order to be able to move in and out of sub but as low as possible
                     //   leftslides.setTarget(1480);
                     submersibleinandout();
-//                    pivotposition(5, 0.35);
+                    pivotposition(5, 0.35);
 //                    slides(caseonepos);
                     leftslides.setTarget(caseonepos);
 //                    slidespositio(caseonepos);
@@ -293,6 +297,7 @@ public class newteleop extends LinearOpMode {
                 case 2: //slides and servos position once in observation zone
                     //once sample is located and have top of claw go down enough to touch sample and close claw becomes part of stage
                     samplepickuppos();
+                    claw.setPosition(0.5);
                     leftslides.setTarget(caseonepos);
                     break;
 
@@ -302,61 +307,61 @@ public class newteleop extends LinearOpMode {
                     break;
 
                 case 4:
+                    clawtoggle = false; //close
                     resetpos();
 //                    slides(50);
-                    leftslides.setTarget(50);
+                    leftslides.setTarget(40);
+//                    slidespositio(50);
                     break;
 
                 case 7: //make slides vertical, fix claw mech position for sample release into basket, extend slides FULLY. make sure servos move simultaneously with other mechs
-//                    pivotposition(268, 1);
-                    largeclawrotate(0.85);
-                    leftslides.setTarget(500);
+                    pivotposition(125, 1);
                     break;
 
-//                case 8: //automatically happens
-//                    samplebasketrelease();
-//                    largeclawrotate(0);
-//                    clawswivel.setPosition(0.22);
-////                    slides(2374);
-////                    leftslides.setTarget(2380);
-////                    slidespositio(2374);
-////                    pivotposition(270, 0.7);
-////                    leftpivot.setTargetPosition(270);
-////                    rightpivot.setTargetPosition(270);
-////                    leftpivot.setPower(0.7);
-////                    rightpivot.setPower(0.7);
-////                    leftpivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-////                    rightpivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    largeclawrotate(0);
-//                    break;
-//
-//                case 9: //open claw, retract slides, horizontal pivot
-//                    clawtoggle = true; //open
-////                    pivotposition(270, 0.5);
-//                    break;
-//
-//                case 10:
-//                    // slides(20);
-//                    leftslides.setTarget(40); // retract
-//                    clawswivel.setPosition(0.22);
-//                    caseonepos = 200;
-//                    break;
-//
-//                case 11: //automatically happens
-////                    pivotposition(10, 1); //horizontal
-//                    largeclawrotate(0.45);
-//                    caseonepos = 210;
-//                    break;
+                case 8: //automatically happens
+                    samplebasketrelease();
+                    largeclawrotate(0);
+                    clawswivel.setPosition(0.22);
+//                    slides(2374);
+                    leftslides.setTarget(2380);
+//                    slidespositio(2374);
+                    pivotposition(125, 0.7);
+                    leftpivot.setTargetPosition(125);
+                    rightpivot.setTargetPosition(125);
+                    leftpivot.setPower(0.7);
+                    rightpivot.setPower(0.7);
+                    leftpivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightpivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    largeclawrotate(0);
+                    break;
+
+                case 9: //open claw, retract slides, horizontal pivot
+                    clawtoggle = true; //open
+                    pivotposition(125, 0.5);
+                    break;
+
+                case 10:
+                    // slides(20);
+                    leftslides.setTarget(40); // retract
+                    clawswivel.setPosition(0.22);
+                    caseonepos = 200;
+                    break;
+
+                case 11: //automatically happens
+                    pivotposition(10, 1); //horizontal
+                    largeclawrotate(0.45);
+                    caseonepos = 210;
+                    break;
             }
-            telemetry.addData("Sample Stage:", bumperstage);
+            telemetry.addData("Sample Stage", bumperstage);
             if (bumperstage == 11 && (leftpivot.getCurrentPosition() < 20)) {
                 bumperstage = 1;
             }
-//            if ((bumperstage == 7 || bumperstage == 8 || bumperstage == 9 || bumperstage == 10) && leftpivot.getCurrentPosition() < 255) {
-////                pivotposition(270, 1);
+//            if ((bumperstage == 7 || bumperstage == 8 || bumperstage == 9 || bumperstage == 10) && leftpivot.getCurrentPosition() < 125) {
+//                pivotposition(125, 1);
 //                //if it tries to fight against itself (not like how it can still fall now) then delete the following 6 lines
-//                leftpivot.setTargetPosition(270);
-//                rightpivot.setTargetPosition(270);
+//                leftpivot.setTargetPosition(125);
+//                rightpivot.setTargetPosition(125);
 //                leftpivot.setPower(1);
 //                rightpivot.setPower(1);
 //                leftpivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -430,18 +435,9 @@ public class newteleop extends LinearOpMode {
                 inandout = inandout - 0.003;
             }
 
-            //driver can hold left or right bumper to decrease max speed and scale that onto the controller
-            if (gamepad2.left_bumper) {
-                speedx = 0;
-            } else if (gamepad2.right_bumper) {
-                speedx = 1;
-            } else {
-                speedx = 2;
-            }
-
             rx = gamepad2.left_stick_y; // Remember, Y stick value is reversed
             x = -gamepad2.left_stick_x * 1.1; // Counteract imperfect strafing
-            y = gamepad2.right_stick_x * 0.85;
+            y = gamepad2.right_stick_x;
             denominator = Math.max(abs(y) + abs(x) + abs(rx), 1);
 
             frontLeftPower = speed[speedx] * ((y + x + rx) / denominator);
@@ -454,9 +450,12 @@ public class newteleop extends LinearOpMode {
             FR.setPower(frontRightPower);
             BR.setPower(backRightPower);
 
+
+            telemetry.addData("leftpivot", leftpivot.getCurrentPosition());
+            telemetry.addData("rightpivot", rightpivot.getCurrentPosition());
             telemetry.update();
 
-            if (bumperstage == 1 || bumperstage == 2 || bumperstage == 3 || bumperstage == 4 || bumperstage == 7 ||  bumperstage == 8 || bumperstage == 9 || bumperstage == 10 ||  ascentstage == 2 || ascentstage == 3 || ascentstage == 4 || ascentstage == 5 || ascentstage == 6 || ascentstage == 7) {
+            if (bumperstage == 1 || bumperstage == 2 || bumperstage == 3 || bumperstage == 4 ||  bumperstage == 8 || bumperstage == 9 || bumperstage == 10 ||  ascentstage == 2 || ascentstage == 3 || ascentstage == 4 || ascentstage == 5 || ascentstage == 6 || ascentstage == 7) {
                 leftslides.armTask();
             }
 

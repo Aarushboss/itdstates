@@ -28,7 +28,7 @@ import java.util.Timer;
 @TeleOp
 public class newnewteleop extends LinearOpMode {
     public static final double[] speed = {0.25, 0.65, 1};
-    public static double SLIDE_POSITION_P = 5.0; // if too slow, then increase. if too fast/oscillating, then decrease.
+    public static double SLIDE_POSITION_P = 0.6; // if too slow, then increase. if too fast/oscillating, then decrease.
 
     public static double SLIDE_VELOCITY_P = 0.0055;
     public static double SLIDE_VELOCITY_I = 0;
