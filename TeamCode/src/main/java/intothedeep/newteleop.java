@@ -315,7 +315,7 @@ public class newteleop extends LinearOpMode {
                     break;
 
                 case 7: //make slides vertical, fix claw mech position for sample release into basket, extend slides FULLY. make sure servos move simultaneously with other mechs
-                    pivotposition(125, 1);
+                    pivotposition(1000, 1);
                     break;
 
                 case 8: //automatically happens
@@ -325,9 +325,9 @@ public class newteleop extends LinearOpMode {
 //                    slides(2374);
                     leftslides.setTarget(2380);
 //                    slidespositio(2374);
-                    pivotposition(125, 0.7);
-                    leftpivot.setTargetPosition(125);
-                    rightpivot.setTargetPosition(125);
+                    pivotposition(1000, 0.7);
+                    leftpivot.setTargetPosition(1000);
+                    rightpivot.setTargetPosition(1000);
                     leftpivot.setPower(0.7);
                     rightpivot.setPower(0.7);
                     leftpivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -337,7 +337,7 @@ public class newteleop extends LinearOpMode {
 
                 case 9: //open claw, retract slides, horizontal pivot
                     clawtoggle = true; //open
-                    pivotposition(125, 0.5);
+                    pivotposition(1000, 0.5);
                     break;
 
                 case 10:
@@ -389,17 +389,17 @@ public class newteleop extends LinearOpMode {
             }
             switch (ascentstage) { //maybe use pidf for pivot? AND WILL EITHER NEED MORE STAGES OR SEQUENTIAL ACTIONS
                 case 1: //make slides vertical, extend to position ~750 - get into position. make sure claw mech is out of way but not hanging out on either side
-                    pivotposition(270, 1);
+                    pivotposition(1000, 1);
                     break;
                 case 2: //move pivot to position ~70. then retract slides to position ~250 and move ascent servos to position. sequential action? or make servos seperate stage
                     leftslides.setTarget(1700);
 //                    slides(1500);
-                    pivotposition(268, 1);
+                    pivotposition(1000, 1);
                     break;
                 case 3: //extend slides fully and *then* move pivot to be able to get onto high bar
                     f = 0.1;
                     largeclawrotate(0);
-                    pivotposition(155, 1);
+                    pivotposition(630, 1);
                     largeclawrotate(0);
                     break;
                 case 4: //retract slides so robot can hang off high bar then release ascent servos from low bar and retract slides rest of the way. then put ascent servos back and release slides
@@ -411,7 +411,7 @@ public class newteleop extends LinearOpMode {
                 case 5:
                     break;
             }
-            if ((leftpivot.getCurrentPosition() < 80) && (leftslide.getCurrentPosition() > 1850) && (bumperstage == 8 || bumperstage == 9 || bumperstage == 10)) {
+            if ((leftpivot.getCurrentPosition() < 500) && (leftslide.getCurrentPosition() > 1850) && (bumperstage == 8 || bumperstage == 9 || bumperstage == 10)) {
                 leftslides.setTarget(1400);
             }
 
