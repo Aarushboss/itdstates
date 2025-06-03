@@ -91,7 +91,7 @@ public class newteleop extends LinearOpMode {
         singleclawrotate.setPosition(0.7); //figure out what to set this
     }
     public void submersibleinandout() {
-        largeclawrotate(inandout);
+        largeclawrotate(0.2);
         singleclawrotate.setPosition(0.15); //figure out what to set this
     }
     public void samplepickuppos() {
@@ -428,12 +428,12 @@ public class newteleop extends LinearOpMode {
                 singleclawrotate.setPosition(0);
             }
 
-            if (gamepad1.dpad_up) {
-                inandout = inandout + 0.003;
-            }
-            if (gamepad1.dpad_down) {
-                inandout = inandout - 0.003;
-            }
+//            if (gamepad1.dpad_up) {
+//                inandout = inandout + 0.003;
+//            }
+//            if (gamepad1.dpad_down) {
+//                inandout = inandout - 0.003;
+//            }
 
             rx = gamepad2.left_stick_y; // Remember, Y stick value is reversed
             x = -gamepad2.left_stick_x * 1.1; // Counteract imperfect strafing
