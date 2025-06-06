@@ -416,10 +416,10 @@ public class newteleop extends LinearOpMode {
             }
 
             if (gamepad2.dpad_down) {
-                leftclawrotate.setPosition(0);
+                largeclawrotate(0.5);
             }
             if (gamepad2.y) {
-                rightclawrotate.setPosition(0);
+                largeclawrotate(0.02);
             }
             if (gamepad2.x) {
                 singleclawrotate.setPosition(0.5);
