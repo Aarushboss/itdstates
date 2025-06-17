@@ -91,11 +91,11 @@ public class newteleop extends LinearOpMode {
         singleclawrotate.setPosition(0.7); //figure out what to set this
     }
     public void submersibleinandout() {
-        largeclawrotate(0.2);
-        singleclawrotate.setPosition(0.15); //figure out what to set this
+        largeclawrotate(0.25);
+        singleclawrotate.setPosition(0.1); //figure out what to set this
     }
     public void samplepickuppos() {
-        largeclawrotate(0.07);
+        largeclawrotate(0.15);
         singleclawrotate.setPosition(0.17); //figure out what to set this
     }
     public void resetpos() {
@@ -166,7 +166,7 @@ public class newteleop extends LinearOpMode {
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BL.setDirection(DcMotorEx.Direction.REVERSE);
 //        BL.setDirection(DcMotorEx.Direction.REVERSE);
 //        FL.setDirection(DcMotorEx.Direction.REVERSE);
@@ -416,10 +416,10 @@ public class newteleop extends LinearOpMode {
             }
 
             if (gamepad2.dpad_down) {
-                largeclawrotate(0.5);
+                leftclawrotate.setPosition(0);
             }
             if (gamepad2.y) {
-                largeclawrotate(0.02);
+                rightclawrotate.setPosition(0);
             }
             if (gamepad2.x) {
                 singleclawrotate.setPosition(0.5);
