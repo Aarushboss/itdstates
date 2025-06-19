@@ -213,6 +213,7 @@ public class newteleop extends LinearOpMode {
                 clawpressed = false;
             }
             if (clawtoggle) {
+
                 claw.setPosition(0.5); //open
             } else if (!clawtoggle) {
                 claw.setPosition(0.1615); //close
