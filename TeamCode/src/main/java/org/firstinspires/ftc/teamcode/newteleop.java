@@ -78,7 +78,7 @@ public class newteleop extends LinearOpMode {
     public void samplebasketrelease() {
         largeclawrotate(0);
         clawswivel.setPosition(0.22); //maker sure center
-        singleclawrotate.setPosition(0.7); //figure out what to set this
+        singleclawrotate.setPosition(0.68); //figure out what to set this
     }
     public void submersibleinandout() {
         largeclawrotate(0.25);
@@ -213,7 +213,6 @@ public class newteleop extends LinearOpMode {
                 clawpressed = false;
             }
             if (clawtoggle) {
-
                 claw.setPosition(0.5); //open
             } else if (!clawtoggle) {
                 claw.setPosition(0.1615); //close
