@@ -193,10 +193,12 @@ public class newteleop extends LinearOpMode {
         while (opModeIsActive()) {
 
 /** WAIT UNTIL LOOP **/
+//            void...
 //            do {
 //
 //            }
-//            while ();
+//            while(  );
+//            return...
 
 
             /** OPERATOR STUFF: */
