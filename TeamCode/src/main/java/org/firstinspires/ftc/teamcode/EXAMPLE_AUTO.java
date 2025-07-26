@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous (name="example auto", group="Linear OpMode")
 @Disabled
-public class exampleauton extends LinearOpMode {
+public class EXAMPLE_AUTO extends LinearOpMode {
     DcMotor FL;
     DcMotor FR;
     DcMotor BL;
