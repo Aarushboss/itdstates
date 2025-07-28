@@ -33,6 +33,7 @@ public class EXAMPLE_AUTO extends LinearOpMode {
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        //the following means that the program does not use pid feedback loop for accurate motor movements. this is necessary for encoder-based autonomous programs
         FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
