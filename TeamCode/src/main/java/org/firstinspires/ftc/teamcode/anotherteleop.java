@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 @TeleOp
-public class summercampteleop extends LinearOpMode {
+public class anotherteleop extends LinearOpMode {
 
     DcMotorEx leftdrive, rightdrive, arm;
     Servo leftclaw, rightclaw;
@@ -61,3 +61,4 @@ public class summercampteleop extends LinearOpMode {
     }
 
 }
+//ex teleops for summer camp robots
