@@ -16,14 +16,14 @@ public class EXAMPLE_AUTO extends LinearOpMode {
 
 
     //variables used to make values more readable and easy to use with encoders
-//    double CPR = 537.7;
-//    int armCPR = 8192;
-//
-//
-//    double diameter = 9.6; // Replace with your wheel/spool's diameter
-//    double circumference = Math.PI * diameter;
-//    int drivetrainconvert = 17;
-//    int armconvert = -23;
+    double CPR = 537.7;
+    int armCPR = 8192;
+
+
+    double diameter = 9.6; // Replace with your wheel/spool's diameter
+    double circumference = Math.PI * diameter;
+    int drivetrainconvert = 17;
+    int armconvert = -23;
 
 
     public void resetencoders() {
