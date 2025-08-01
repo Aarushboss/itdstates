@@ -2,19 +2,21 @@ package org.firstinspires.ftc.teamcode;
 
 import static java.lang.Math.abs;
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
+@Disabled
 @TeleOp
 public class anotherteleop extends LinearOpMode {
 
     DcMotorEx leftdrive, rightdrive, arm;
     Servo leftclaw, rightclaw;
 
-    double leftstick, rightstick, leftbumper, rightbumper;
+//    double leftstick, rightstick, leftbumper, rightbumper;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -31,19 +33,23 @@ public class anotherteleop extends LinearOpMode {
 
         while(opModeIsActive()) {
 
-            leftstick = gamepad1.left_stick_y;
-            rightstick = gamepad1.right_stick_y;
+//            leftstick = gamepad1.left_stick_y;
+//            rightstick = gamepad1.right_stick_y;
 
-            if (Math.abs(leftstick) > 0.1) {
-                leftdrive.setPower(leftstick);
-                rightdrive.setPower(rightstick);
+            if (gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < -0.1) {
+                leftdrive.setPower(gamepad1.left_stick_y);
+            }
+            if (gamepad1.right_stick_y > 0.1 || gamepad1.right_stick_y < -0.1) {
+                rightdrive.setPower(gamepad1.right_stick_y);
             }
 
-            leftbumper = gamepad1.left_trigger;
-            rightbumper = gamepad1.right_trigger;
 
-            if ((leftbumper > 0.1) || (rightbumper > 0.1)) {
-                arm.setPower(leftbumper - rightbumper);
+            if ((gamepad2.left_bumper)) {
+                arm.setPower(-1);
+            } else if ((gamepad2.right_bumper)) {
+                arm.setPower(1);
+            } else {
+                arm.setPower(0);
             }
 //HI
             if (gamepad1.a) { //close

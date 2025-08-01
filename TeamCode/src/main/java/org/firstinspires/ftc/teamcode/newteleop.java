@@ -215,9 +215,9 @@ public class newteleop extends LinearOpMode {
                 clawpressed = false;
             }
             if (clawtoggle) {
-                claw.setPosition(0.5); //open
+                claw.setPosition(0.1615); //open
             } else if (!clawtoggle) {
-                claw.setPosition(0.1615); //close
+                claw.setPosition(0.5); //close
             }
 
             //FIGURE OUT NEW VALUES
@@ -297,7 +297,7 @@ public class newteleop extends LinearOpMode {
                 case 2: //slides and servos position once in observation zone
                     //once sample is located and have top of claw go down enough to touch sample and close claw becomes part of stage
                     samplepickuppos();
-                    claw.setPosition(0.5);
+                    claw.setPosition(0.1615);
                     leftslides.setTarget(caseonepos);
                     break;
 
