@@ -34,7 +34,7 @@ public class clairepedropathing extends OpMode {
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
 
-    private final Pose startPose = new Pose(8,70, Math.toRadians(0));
+    private final Pose startPose = new Pose(8,70, Math.toRadians(0.0));
     private final Pose poseuna = new Pose(30, 70, Math.toRadians(0));
     private final Pose posedos = new Pose(25, 26, Math.toRadians(0));
     private final Pose posetres = new Pose(50, 33.5, Math.toRadians(0));
